@@ -1,8 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GamesController } from './games/games.controller';
+import { InfoUserController } from './users-info/users-info.controller';
+import { UserController } from './users/users.controller';
 import { GamesService } from './games/games.service';
 import { Games } from './games/entities/game.entity';
+import{User}from './users/entities/user.entity';
+import{InfoUser}from './users-info/entities/users-info.entity';
+import { UserService } from './users/users.service';
+import { InfoUserService } from './users-info/users-info.service';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -15,9 +22,11 @@ import { Games } from './games/entities/game.entity';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Games]), // Agrega todas las entidades que usarás en este módulo
+    TypeOrmModule.forFeature([Games]),
+    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([InfoUser]),
   ],
-  controllers: [GamesController],
-  providers: [GamesService],
+  controllers: [GamesController, InfoUserController, UserController],
+  providers: [GamesService, UserService, InfoUserService],
 })
 export class AppModule {}
