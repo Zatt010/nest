@@ -9,6 +9,7 @@ import{User}from './users/entities/user.entity';
 import{InfoUser}from './users-info/entities/users-info.entity';
 import { UserService } from './users/users.service';
 import { InfoUserService } from './users-info/users-info.service';
+import { CarritoModule } from './carrito/carrito.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { InfoUserService } from './users-info/users-info.service';
     TypeOrmModule.forFeature([Games]),
     TypeOrmModule.forFeature([User]),
     TypeOrmModule.forFeature([InfoUser]),
+    CarritoModule,
   ],
   controllers: [GamesController, InfoUserController, UserController],
   providers: [GamesService, UserService, InfoUserService],
