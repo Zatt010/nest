@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
+import { Carrito } from './entities/carrito.entity';
 import { CreateCarritoDto } from './dto/create-carrito.dto';
 import { UpdateCarritoDto } from './dto/update-carrito.dto';
 
 @Injectable()
 export class CarritoService {
+  constructor(
+    @InjectRepository(Carrito)
+    private carritoRepository: Repository<Carrito>,
+  ) {}
+
   create(createCarritoDto: CreateCarritoDto) {
-    return 'This action adds a new carrito';
+    const carrito = this.carritoRepository.create(createCarritoDto)
+    return this.carritoRepository.save(carrito);
   }
 
   findAll() {
-    return `This action returns all carrito`;
+    return this.carritoRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} carrito`;
+    const options: FindOneOptions<Carrito> = {
+      where: { id: id },
+    };
+    return this.carritoRepository.findOne(options);
   }
 
-  update(id: number, updateCarritoDto: UpdateCarritoDto) {
-    return `This action updates a #${id} carrito`;
+  async update(id: number, updateCarritoDto: UpdateCarritoDto): Promise<Carrito> {
+    await this.carritoRepository.update(id, updateCarritoDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} carrito`;
+  async remove(id: number) {
+    const options: FindOneOptions<Carrito> = {
+      where: { id: id },
+    };
+    const game = await this.carritoRepository.findOne(options);
+    if (!game) {
+      throw new Error('carrito no encontrado');
+    }
+    return this.carritoRepository.remove(game);
   }
 }

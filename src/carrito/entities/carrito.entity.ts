@@ -1,14 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { OneToMany, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, JoinTable } from 'typeorm';
+import { ManyToMany, OneToOne } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { Games } from 'src/games/entities/game.entity';
 
 @Entity()
 export class Carrito {
-@PrimaryGeneratedColumn()
-Id : number
-@OneToOne( () => User, {cascade:true})
+  @PrimaryGeneratedColumn()
+  id : number;
 
-Id user
-Id juego 
-Compra: bool
+  @ManyToMany(()=> Games)
+  @JoinTable()
+  games:Games[];
+
+  @OneToOne( () => User, {cascade:true})
+  @JoinColumn()
+  user:User;
 }

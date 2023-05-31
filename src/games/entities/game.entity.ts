@@ -1,3 +1,4 @@
+
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -22,4 +23,7 @@ export class Games {
 
   @Column()
   cantidad: number;
+
+  @Column()
+  compra:boolean;
 }
