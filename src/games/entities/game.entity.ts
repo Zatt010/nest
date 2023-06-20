@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { Carrito } from 'src/carrito/entities/carrito.entity';
 @Entity()
 export class Games {
   @PrimaryGeneratedColumn()
@@ -22,4 +22,7 @@ export class Games {
 
   @Column()
   cantidad: number;
+
+  @ManyToMany(() => Carrito, carrito => carrito.games)
+  carritos: Carrito[];
 }
