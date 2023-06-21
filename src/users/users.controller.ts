@@ -24,12 +24,11 @@ export class UserController {
   }
 
   @Post('login')
-  async login(@Body() loginDto: { email: string, password: string }): Promise<{ user: User, token: string }> {
-    const { email, password } = loginDto;
-    return this.userService.findByEmailAndPassword(email, password);
-  }
-
-
+async login(@Body() loginDto: { email: string, password: string }): Promise<{ token: string }> {
+  const { email, password } = loginDto;
+  const token = await this.userService.findByEmailAndPassword(email, password);
+  return { token };
+}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {

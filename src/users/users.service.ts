@@ -35,15 +35,15 @@ export class UserService {
     return this.userRepository.findOne(options);
   }
 
-  async findByEmailAndPassword(email: string, password: string): Promise<{ user: User; token: string }> {
+  async findByEmailAndPassword(email: string, password: string): Promise<string> {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user || user.password !== password) {
       throw new UnauthorizedException('Invalid email or password');
     }
-
+  
     const token = await this.authService.generateToken(user);
-
-    return { user, token };
+  
+    return token;
   }
 
   create(createUserDto: CreateUserDto): Promise<User> {

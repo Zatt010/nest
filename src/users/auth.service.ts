@@ -8,7 +8,11 @@ export class AuthService {
 
   async generateToken(user: User): Promise<string> {
     const payload = { id: user.id };
-    return this.jwtService.signAsync(payload);
+    const secretKey = 'funca'; // Reemplaza esto con tu propia clave secreta
+
+    const token = await this.jwtService.signAsync(payload, { secret: secretKey });
+
+    return token;
   }
 
   async verifyToken(token: string): Promise<any> {
